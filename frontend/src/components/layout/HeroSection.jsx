@@ -1,16 +1,44 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const carouselImages = [
-  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80",
-];
+// const carouselImages = [
+//   "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
+//   "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
+//   "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=600&q=80",
+//   "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80",
+// ];
 
-const infiniteImages = [...carouselImages, ...carouselImages, ...carouselImages];
+// const infiniteImages = [...carouselImages, ...carouselImages, ...carouselImages];
+
+
 
 export default function HeroSection() {
+
+  const [infiniteImages, setInfiniteImages] = useState([]);
+
+  useEffect(() => {
+      const fetchTrendingImages = async () => {
+        try {
+          const response = await fetch("http://localhost:5000/api/recipes/trending");
+          const recipes = await response.json();
+          
+          // Extract just the image URLs from the database objects
+          const imageUrls = recipes.map(recipe => recipe.image);
+          
+          // Multiply the array by 3 to create the seamless infinite scroll effect
+          setInfiniteImages([...imageUrls, ...imageUrls, ...imageUrls]);
+        } catch (error) {
+          console.error("Error fetching trending recipes:", error);
+        }
+      };
+
+      fetchTrendingImages();
+    }, []);
+    if (infiniteImages.length === 0) {
+    return <div className="h-screen bg-[#FAF8F5] flex items-center justify-center">Loading...</div>;
+  }
+
   return (
     <section className="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-24 pb-8 overflow-hidden bg-[#FAF8F5]">
       
@@ -62,7 +90,7 @@ export default function HeroSection() {
         </div>
 
         {/* Carousel Reel */}
-        <div className="flex gap-6 overflow-hidden w-full py-2">
+       <div className="flex gap-6 overflow-hidden w-full py-2">
           <motion.div 
             className="flex gap-6 cursor-grab active:cursor-grabbing"
             animate={{ x: [0, -2000] }}
