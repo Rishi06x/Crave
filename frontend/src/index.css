@@ -1,6 +1,16 @@
-@import "tailwindcss";
 @import url('[https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap](https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap)');
+@import "tailwindcss";
 
 @theme {
   --font-caveat: "Caveat", cursive;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
