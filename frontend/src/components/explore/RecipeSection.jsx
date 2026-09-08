@@ -1,6 +1,6 @@
 import RecipeCard from "./RecipeCard";
 
-export default function RecipeSection({ title, recipes, subtitle }) {
+export default function RecipeSection({ title, recipes, subtitle, onLoadMore, isLoadingMore }) {
   return (
     <section className="w-full max-w-7xl mx-auto px-8 py-8">
       {/* Section Header */}
@@ -9,18 +9,30 @@ export default function RecipeSection({ title, recipes, subtitle }) {
           <h2 className="text-3xl font-bold text-stone-900 tracking-tight">{title}</h2>
           {subtitle && <p className="text-stone-500 mt-1 font-medium">{subtitle}</p>}
         </div>
-        <button className="bg-stone-900 hover:bg-stone-800 text-white px-5 py-2 rounded-full text-sm font-semibold transition-colors shadow-sm">
-          View All
-        </button>
       </div>
 
       {/* Grid/Scrollable List */}
-      <div className="flex gap-6 overflow-x-auto no-scrollbar pb-4 -mx-8 px-8 snap-x">
+      <div className="flex items-stretch gap-6 overflow-x-auto no-scrollbar pb-4 -mx-8 px-8 snap-x">
         {recipes.map((recipe, index) => (
-          <div key={index} className="snap-start shrink-0">
+          <div key={index} className="snap-start shrink-0 flex items-stretch">
             <RecipeCard recipe={recipe} />
           </div>
         ))}
+        {/* Load More Button */}
+        {onLoadMore && (
+          <div className="snap-start shrink-0 flex items-center justify-center px-4">
+            <button 
+              onClick={onLoadMore}
+              className="px-6 py-3 bg-white text-stone-700 font-semibold rounded-full shadow-sm border border-stone-200 hover:shadow-md hover:border-orange-300 hover:text-orange-600 transition-all flex items-center gap-2"
+            >
+              {isLoadingMore ? (
+                <div className="w-5 h-5 border-2 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                'Load More'
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
