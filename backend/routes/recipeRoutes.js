@@ -107,13 +107,15 @@ router.get('/quick', async (req, res) => {
 // Handles live dynamic searching and filtering by meal type
 router.get('/live-explore', async (req, res) => {
   try {
-    const { search, type, maxTime, offset = 0 } = req.query;
+    const { search, type, maxTime, diet, maxCalories, offset = 0 } = req.query;
 
-    let apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=12&offset=${offset}&addRecipeInformation=true`;
+    let apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=12&offset=${offset}&addRecipeInformation=true&addRecipeNutrition=true`;
 
     if (search) apiUrl += `&query=${search}`;
     if (type && type !== 'All') apiUrl += `&type=${type}`;
     if (maxTime) apiUrl += `&maxReadyTime=${maxTime}`;
+    if (diet) apiUrl += `&diet=${diet}`;
+    if (maxCalories) apiUrl += `&maxCalories=${maxCalories}`;
 
     const response = await fetch(apiUrl);
     const data = await response.json();
