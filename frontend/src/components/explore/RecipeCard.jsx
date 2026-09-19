@@ -1,8 +1,11 @@
 import { Clock, Flame, MapPin } from "lucide-react";
 
-export default function RecipeCard({ recipe }) {
+export default function RecipeCard({ recipe, onClick }) {
   return (
-    <div className="flex flex-col group cursor-pointer w-full min-w-[200px] max-w-[240px] h-full bg-white p-3 rounded-[1.25rem] shadow-sm border border-stone-100 hover:shadow-md transition-all">
+    <div 
+      onClick={onClick}
+      className="flex flex-col group cursor-pointer w-full min-w-[200px] max-w-[240px] h-full bg-white p-3 rounded-[1.25rem] shadow-sm border border-stone-100 hover:shadow-md transition-all"
+    >
       {/* Image Container */}
       <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 relative bg-stone-50">
         <img 

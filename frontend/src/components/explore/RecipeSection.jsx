@@ -1,6 +1,10 @@
+import { useState } from "react";
 import RecipeCard from "./RecipeCard";
+import RecipeModal from "./RecipeModal";
 
 export default function RecipeSection({ title, recipes, subtitle, onLoadMore, isLoadingMore, layout = "carousel" }) {
+  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+
   return (
     <section className="w-full max-w-7xl mx-auto px-8 py-8">
       {/* Section Header */}
@@ -19,7 +23,7 @@ export default function RecipeSection({ title, recipes, subtitle, onLoadMore, is
       }>
         {recipes.map((recipe, index) => (
           <div key={index} className={layout === "grid" ? "flex items-stretch justify-center" : "snap-start shrink-0 flex items-stretch"}>
-            <RecipeCard recipe={recipe} />
+            <RecipeCard recipe={recipe} onClick={() => setSelectedRecipeId(recipe.id || recipe._id)} />
           </div>
         ))}
         {/* Load More Button */}
@@ -38,6 +42,10 @@ export default function RecipeSection({ title, recipes, subtitle, onLoadMore, is
           </div>
         )}
       </div>
+
+      {selectedRecipeId && (
+        <RecipeModal recipeId={selectedRecipeId} onClose={() => setSelectedRecipeId(null)} />
+      )}
     </section>
   );
 }

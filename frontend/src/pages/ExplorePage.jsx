@@ -81,10 +81,10 @@ export default function ExplorePage() {
         const res = await fetch(url);
         const data = await res.json();
         
-        // Spoonacular live explore doesn't return all our mocked fields natively in root, so we map it here
         const formattedData = data.map(r => {
           const cals = r.nutrition?.nutrients?.find(n => n.name === 'Calories')?.amount;
           return {
+            id: r.id,
             title: r.title,
             imageHero: r.image || 'https://images.unsplash.com/photo-1585937421612-70a008356fbe',
             viewCount: Math.floor(Math.random() * 500) + 100, // mock count
